@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Socket.IO chat</title>
+    <title>Socket.IO Buzzer</title>
     <style>
         * {
             margin: 0;
@@ -13,28 +13,154 @@
             font: 13px Helvetica, Arial;
         }
 
-        #wrapper {
-            width: 500px;
-            height: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 150px;
+        .fullwidth {
+            width: 100%;
+        }
+
+        .card-panel {
+            height: 60px;
+        }
+
+        .card-panel p {
+            text-align: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .btn60 {
+            height: 60px;
+        }
+
+        #socket-connection {
+            font-size: 40px;
+            color: red;
         }
 
     </style>
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 </head>
 <body>
-<div id="wrapper">
-    <button class="waves-effect waves-light btn-large" id="player1">Player 1</button>
-    <button class="waves-effect waves-light btn-large" id="player2">Player 2</button>
-    <button class="waves-effect waves-light btn-large" id="player3">Player 3</button>
+<div id="container">
+    <div class="row" style="margin-top: 100px">
+        <div class="col s2 offset-s3">
+            <div class="card-panel green" id="player1box"></div>
+            <button class="waves-effect waves-light btn fullwidth" id="player1">Player 1</button>
+        </div>
+        <div class="col s2">
+            <div class="card-panel green" id="player2box"></div>
+            <button class="waves-effect waves-light btn fullwidth" id="player2">Player 2</button>
+        </div>
+        <div class="col s2">
+            <div class="card-panel green" id="player3box"></div>
+            <button class="waves-effect waves-light btn fullwidth" id="player3">Player 3</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s3 offset-s3">
+            <i class="material-icons dp48" id="socket-connection">power_settings_new</i>
+        </div>
+
+        <div class="col s3">
+            <button class="waves-effect waves-light btn fullwidth red btn60" id="reset">Reset</button>
+        </div>
+    </div>
 </div>
+
+<!-- Compiled and minified JavaScript -->
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    var socket = io();
+    var playerCount = 0;
+
+    $(function () {
+
+        // ----- UI event handlers ------ //
+
+        $('#player1').click(function () {
+            socket.emit('player1', 'Bernard Black');
+            return false
+        });
+        $('#player2').click(function () {
+            socket.emit('player2', 'Gary Newman');
+            return false
+        });
+        $('#player3').click(function () {
+            socket.emit('player3', 'Gary Glitter');
+            return false
+        });
+
+        $("#reset").click(function () {
+            playerReset();
+        });
+
+        // ----- Helper Functions ------ //
+
+        function playerReset() {
+            console.log("reset");
+            $("#player1box").removeClass('red').addClass('green').html("");
+            $("#player2box").removeClass('red').addClass('green').html("");
+            $("#player3box").removeClass('red').addClass('green').html("");
+            playerCount = 0;
+        }
+
+
+        // ----- Socket.io event handlers ------ //
+
+        socket.on('connect', function () {
+            console.log('connected to server');
+            $("#socket-connection").css("color", "green");
+        });
+
+        socket.on('disconnect', function () {
+            console.log('disconnected from server');
+            $("#socket-connection").css("color", "red");
+        });
+
+        socket.on('reconnect', function () {
+            console.log('reconnected to server');
+        });
+
+        socket.on('reset', function() {
+            console.log('reset');
+            playerReset();
+
+        });
+
+        socket.on('player1', function () {
+            console.log('Player1');
+            if (playerCount < 3 && $("#player1box").hasClass('green')) {
+                playerCount++;
+                $("#player1box").removeClass('green').addClass('red').append("<p>" + playerCount + "</p>");
+            }
+        });
+
+        socket.on('player2', function () {
+            console.log('Player2');
+            if(playerCount < 3 && $("#player2box").hasClass('green')) {
+                playerCount++;
+                $("#player2box").removeClass('green').addClass('red').append("<p>" + playerCount + "</p>");
+            }
+        });
+
+        socket.on('player3', function () {
+            console.log('Player3');
+            if(playerCount < 3 && $("#player3box").hasClass('green')) {
+                playerCount ++;
+                $("#player3box").removeClass('green').addClass('red').append("<p>" + playerCount + "</p>");
+            }
+        });
+
+
+    });
+
+
+</script>
 </body>
 </html>
