@@ -43,50 +43,50 @@ http.listen('3000', function() {
 
 // GPIO button detection
 
-//Cylon.robot({
-//    connections: {
-//        raspi: { adapter: 'raspi' }
-//    },
-//
-//    devices: {
-//        button1: { driver: 'button', pin: 15 },
-//        led1: { driver: 'led', pin: 11}
-//    },
-//
-//    work: function(my) {
-//        my.button1.on('push', function() {
-//            io.emit('player1');
-//            my.led1.turnOn();
-//            console.log('Player 1 Buzzed');
-//        });
-//        my.button1.on('release', function() {
-//            my.led1.turnOff();
-//        })
-//    }
-//
-//}).start();
-
-
 Cylon.robot({
     connections: {
-        raspi: { adaptor: 'raspi' }
+        raspi: { adapter: 'raspi' }
     },
 
     devices: {
-        button: { driver: 'button', pin: 15 },
-        led: { driver: 'led', pin: 11 }
+        button1: { driver: 'button', pin: 15 },
+        led1: { driver: 'led', pin: 11}
     },
 
     work: function(my) {
-        console.log("Started");
-        my.button.on('push', function() {
-            console.log("Button pushed!!");
-            my.led.turnOn();
+        my.button1.on('push', function() {
+            io.emit('player1');
+            my.led1.turnOn();
+            console.log('Player 1 Buzzed');
         });
-
-        my.button.on('release', function() {
-            console.log("released");
-            my.led.turnOff();
-        });
+        my.button1.on('release', function() {
+            my.led1.turnOff();
+        })
     }
+
 }).start();
+
+
+//Cylon.robot({
+//    connections: {
+//        raspi: { adaptor: 'raspi' }
+//    },
+//
+//    devices: {
+//        button: { driver: 'button', pin: 15 },
+//        led: { driver: 'led', pin: 11 }
+//    },
+//
+//    work: function(my) {
+//        console.log("Started");
+//        my.button.on('push', function() {
+//            console.log("Button pushed!!");
+//            my.led.turnOn();
+//        });
+//
+//        my.button.on('release', function() {
+//            console.log("released");
+//            my.led.turnOff();
+//        });
+//    }
+//}).start();
