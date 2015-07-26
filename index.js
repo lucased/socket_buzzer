@@ -49,7 +49,7 @@ Cylon.robot({
     },
 
     devices: {
-        button1: { driver: 'button', pin: 15 }
+        button1: { driver: 'button', pin: 15 },
         led1: { driver: 'led', pin: 11}
     },
 
