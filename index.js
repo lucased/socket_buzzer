@@ -44,26 +44,49 @@ http.listen('3000', function() {
 // GPIO button detection
 
 Cylon.robot({
+//    connections: {
+//        raspi: { adapter: 'raspi' }
+//    },
+//
+//    devices: {
+//        button1: { driver: 'button', pin: 15 },
+//        led1: { driver: 'led', pin: 11}
+//    },
+//
+//    work: function(my) {
+//        my.button1.on('push', function() {
+//            io.emit('player1');
+//            my.led1.turnOn();
+//            console.log('Player 1 Buzzed');
+//        });
+//        my.button1.on('release', function() {
+//            my.led1.turnOff();
+//        })
+//    }
+//
+//}).start();
+
+
+Cylon.robot({
     connections: {
-        raspi: { adapter: 'raspi' }
+        raspi: { adaptor: 'raspi' }
     },
 
     devices: {
-        button1: { driver: 'button', pin: 15 },
-        led1: { driver: 'led', pin: 11}
+        button: { driver: 'button', pin: 15 },
+        led: { driver: 'led', pin: 11 }
     },
 
     work: function(my) {
-        my.button1.on('push', function() {
-            io.emit('player1');
-            my.led1.turnOn();
-            console.log('Player 1 Buzzed');
+        console.log("Started");
+        my.button.on('push', function() {
+            console.log("Button pushed!!");
+            my.led.turnOn();
         });
-        my.button1.on('release', function() {
-            my.led1.turnOff();
-        })
+
+        my.button.on('release', function() {
+            console.log("released");
+            my.led.turnOff();
+        });
     }
-
 }).start();
-
-
