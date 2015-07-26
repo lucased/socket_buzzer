@@ -44,7 +44,7 @@ http.listen('3000', function() {
 // GPIO button detection
 
 Cylon.robot({
-    connection: {
+    connections: {
         raspi: { adapter: 'raspi' }
     },
 
