@@ -43,7 +43,7 @@ http.listen('3000', function() {
 
 // GPIO button detection
 
-Cylon.robot({
+//Cylon.robot({
 //    connections: {
 //        raspi: { adapter: 'raspi' }
 //    },
