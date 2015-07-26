@@ -45,7 +45,7 @@ http.listen('3000', function() {
 
 Cylon.robot({
     connections: {
-        raspi: { adapter: 'raspi' }
+        raspi: { adaptor: 'raspi' }
     },
 
     devices: {
