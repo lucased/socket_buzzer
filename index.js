@@ -1,6 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var Cylon = require('cylon');
 
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -39,5 +40,30 @@ io.on('connection', function(socket) {
 http.listen('3000', function() {
     console.log('Connection port: 3000');
 });
+
+// GPIO button detection
+
+Cylon.robot({
+    connection: {
+        raspi: { adapter: 'raspi' }
+    },
+
+    devices: {
+        button1: { driver: 'button', pin: 15 }
+        led1: { driver: 'led', pin: 11}
+    },
+
+    work: function(my) {
+        my.button1.on('push', function() {
+            io.emit('player1');
+            my.led1.turnOn();
+            console.log('Player 1 Buzzed');
+        });
+        my.button1.on('release', function() {
+            my.led1.turnOff();
+        })
+    }
+
+}).start();
 
 
