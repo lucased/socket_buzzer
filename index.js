@@ -34,7 +34,6 @@ io.on('connection', function(socket) {
         io.emit('reset');
     })
 
-
 });
 
 http.listen('3000', function() {
@@ -61,32 +60,9 @@ Cylon.robot({
         });
         my.button1.on('release', function() {
             my.led1.turnOff();
+            console.log("Player 1 released")
         })
     }
 
 }).start();
 
-
-//Cylon.robot({
-//    connections: {
-//        raspi: { adaptor: 'raspi' }
-//    },
-//
-//    devices: {
-//        button: { driver: 'button', pin: 15 },
-//        led: { driver: 'led', pin: 11 }
-//    },
-//
-//    work: function(my) {
-//        console.log("Started");
-//        my.button.on('push', function() {
-//            console.log("Button pushed!!");
-//            my.led.turnOn();
-//        });
-//
-//        my.button.on('release', function() {
-//            console.log("released");
-//            my.led.turnOff();
-//        });
-//    }
-//}).start();
