@@ -49,6 +49,7 @@ Cylon.robot({
 
     devices: {
         button1: { driver: 'button', pin: 15 },
+        button2: { driver: 'button', pin: 16 },
         led1: { driver: 'led', pin: 11}
     },
 
@@ -58,10 +59,15 @@ Cylon.robot({
             my.led1.turnOn();
             console.log('Player 1 Buzzed');
         });
+
         my.button1.on('release', function() {
             my.led1.turnOff();
             console.log("Player 1 released")
-        })
+        });
+
+        my.button2.on('push', function() {
+           console.log("Player 2");
+        });
     }
 
 }).start();
